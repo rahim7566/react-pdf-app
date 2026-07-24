@@ -1,0 +1,17 @@
+# Node & Local Caches
+node_modules/
+.expo/
+.metro/
+
+# Native Folders (Crucial: EAS recreates these in the cloud)
+android/
+ios/
+
+# Ignore local build outputs
+*.apk
+*.aab
+
+# System files
+.DS_Store
+.git/
+.gitignore
