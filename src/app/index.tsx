@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  BackHandler,
   Dimensions,
   FlatList,
   I18nManager,
@@ -14,69 +15,226 @@ import {
 } from "react-native";
 import Pdf, { PdfRef } from "react-native-pdf";
 
-// Force RTL layout orientation natively
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
+
+// 1. Define a clean structure for the sub-index items
+interface SubLetterItem {
+  letter: string; // e.g. "ا", "ب", "ت"
+  page: number;   // The specific page for this exact combination
+}
 
 interface IndexItem {
   id: number;
   title: string;
+  letterKey: string; 
   page: number;
   targetPage?: number;
+  subLetters?: SubLetterItem[]; // OPTIONAL: Only add this if the letter has specific sub-chapters
 }
 
+// 2. Map only the existing combinations found in your book
 const PDF_INDEX: IndexItem[] = [
-  { id: 1, title: "ا (الف)", page: 3, targetPage: 4 },
-  { id: 2, title: "ب", page: 61, targetPage: 62 },
-  { id: 3, title: "ت", page: 71, targetPage: 72 },
-  { id: 4, title: "ث", page: 119, targetPage: 120 },
-  { id: 5, title: "ج", page: 120, targetPage: 121 },
-  { id: 6, title: "ح", page: 127, targetPage: 128 },
-  { id: 7, title: "خ", page: 137, targetPage: 138 },
-  { id: 8, title: "د", page: 145, targetPage: 146 },
-  { id: 9, title: "ذ", page: 149, targetPage: 150 },
-  { id: 10, title: "ر", page: 152, targetPage: 153 },
-  { id: 11, title: "ز", page: 161, targetPage: 162 },
-  { id: 12, title: "س", page: 166, targetPage: 167 },
-  { id: 13, title: "ش", page: 181, targetPage: 182 },
-  { id: 14, title: "ص", page: 189, targetPage: 190 },
-  { id: 15, title: "ض", page: 198, targetPage: 199 },
-  { id: 16, title: "ط", page: 201, targetPage: 202 },
-  { id: 17, title: "ظ", page: 207, targetPage: 208 },
-  { id: 18, title: "ع", page: 209, targetPage: 210 },
-  { id: 19, title: "غ", page: 227, targetPage: 228 },
-  { id: 20, title: "ف", page: 231, targetPage: 232 },
-  { id: 21, title: "ق", page: 239, targetPage: 240 },
-  { id: 22, title: " ک", page: 251, targetPage: 252 },
-  { id: 23, title: "ل", page: 259, targetPage: 260 },
-  { id: 24, title: "م", page: 266, targetPage: 267 },
-  { id: 25, title: "ن", page: 312, targetPage: 313 },
-  { id: 26, title: "و", page: 340, targetPage: 341 },
-  { id: 27, title: "ہ", page: 349, targetPage: 350 },
-  { id: 28, title: "ی", page: 354, targetPage: 355 },
+  { 
+    id: 1, 
+    title: "اٰ", 
+    letterKey: "اٰ", 
+    page: 3, 
+    targetPage: 4,
+    subLetters: [
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ث", page: 5 }, 
+      { letter: "خ", page: 12 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "ت", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ی", page: 91 },
+      
+    ]
+  },
+  { 
+    id: 2, 
+    title: "ا (الف)", 
+    letterKey: "ا", 
+    page: 3, 
+    targetPage: 4,
+    subLetters: [
+      { letter: "ء", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ث", page: 5 }, 
+      { letter: "ج", page: 5 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 12 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ض", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ظ", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ق", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+
+    ]
+  },
+  { 
+    id: 3, 
+    title: "ب", 
+    letterKey: "ب", 
+    page: 61, 
+    targetPage: 62,
+    subLetters: [
+      { letter: "ء", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ث", page: 5 }, 
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 12 },
+      { letter: "د", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ض", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ق", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  { 
+    id: 4, 
+    title: "ت", 
+    letterKey: "ت", 
+    page: 61, 
+    targetPage: 62,
+    subLetters: [
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ث", page: 5 }, 
+      { letter: "ج", page: 5 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 12 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ض", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ظ", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ق", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+    { 
+    id: 5, 
+    title: "ث", 
+    letterKey: "ث", 
+    page: 61, 
+    targetPage: 62,
+    subLetters: [
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ج", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 }, 
+      { letter: "ق", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  { 
+    id: 6, 
+    title: "ج", 
+    letterKey: "ج", 
+    page: 61, 
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ء", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ث", page: 5 }, 
+      { letter: "ح", page: 5 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
 ];
 
 const toUrduNumber = (num: number | string): string => {
   const urduDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return num
-    .toString()
-    .split('')
-    .map((d) => urduDigits[parseInt(d, 10)])
-    .join('');
+  return num.toString().split('').map((d) => urduDigits[parseInt(d, 10)]).join('');
 };
 
 const { width, height } = Dimensions.get("window");
 
 export default function Index() {
   const pdfRef = useRef<PdfRef>(null);
-
   const [localPdfUri, setLocalPdfUri] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showPdf, setShowPdf] = useState(false);
+  const [selectedLetter, setSelectedLetter] = useState<IndexItem | null>(null);
   const [targetPage, setTargetPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded] = useFonts({
     "MehrNastaleeq": require("../../assets/fonts/MehrNastaleeq.ttf"),
     "Amiri-Regular": require("../../assets/fonts/Amiri-Regular.ttf"),
   });
@@ -86,15 +244,11 @@ export default function Index() {
       try {
         const dir = Paths.document || Paths.cache;
         const file = new File(dir, "SAHIH_LUGHAT_UL_QURAAN.pdf");
-
         if (file.exists) {
           setLocalPdfUri(file.uri);
         } else {
-          const asset = Asset.fromModule(
-            require("../../assets/SAHIH_LUGHAT_UL_QURAAN.pdf")
-          );
+          const asset = Asset.fromModule(require("../../assets/SAHIH_LUGHAT_UL_QURAAN.pdf"));
           await asset.downloadAsync();
-
           if (asset.localUri) {
             const source = new File(asset.localUri);
             source.copy(file);
@@ -107,13 +261,38 @@ export default function Index() {
         setIsLoading(false);
       }
     }
-
     preparePdf();
   }, []);
 
-  const navigateToPage = (item: IndexItem) => {
-    const destination = item.targetPage ?? item.page;
-    setTargetPage(destination);
+  useEffect(() => {
+    const backAction = () => {
+      if (showPdf) {
+        setShowPdf(false);
+        return true; 
+      }
+      if (selectedLetter) {
+        setSelectedLetter(null); 
+        return true;
+      }
+      return false; 
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
+  }, [showPdf, selectedLetter]);
+
+  // Handle Main Item click intelligently
+  const handleMainItemPress = (item: IndexItem) => {
+    if (item.subLetters && item.subLetters.length > 0) {
+      setSelectedLetter(item); // Show sub-index only if data exists
+    } else {
+      const destination = item.targetPage ?? item.page;
+      setTargetPage(destination);
+      setShowPdf(true); // Jump directly to PDF if no sub-list is defined
+    }
+  };
+
+  const handleSubItemPress = (pageNumber: number) => {
+    setTargetPage(pageNumber); // Open the exact custom page for that combination
     setShowPdf(true);
   };
 
@@ -126,84 +305,113 @@ export default function Index() {
     );
   }
 
-  if (!showPdf) {
+  // VIEW 3: PDF Canvas Screen
+  if (showPdf) {
     return (
-      <View style={styles.indexScreen}>
-        {/* Header Block */}
-        <View style={styles.headerContainer}>
-          <Text style={styles.header}>صَحِیح لُغَاتُ القُرْآن</Text>
-          <Text style={styles.subtitle}>فہرِستِ الفاظ</Text>
-          <View style={styles.decoratorLine} />
-        </View>
-
-        {/* Modern 2-Column Grid List */}
-        <FlatList
-          data={PDF_INDEX}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={2}
-          columnWrapperStyle={styles.gridRow}
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.card}
-              onPress={() => navigateToPage(item)}
-              activeOpacity={0.8}
-            >
-              <View style={styles.letterBadge}>
-                <Text style={styles.cardTitle}>{item.title}</Text>
-              </View>
-              <View style={styles.pageContainer}>
-                <Text style={styles.pageLabel}>صفحہ</Text>
-                <Text style={styles.cardPage}>{toUrduNumber(item.page)}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
+      <View style={styles.container}>
+        <Pdf
+          ref={pdfRef}
+          source={{ uri: localPdfUri, cache: true }}
+          horizontal={true}
+          enablePaging={true}
+          enableRTL={true}
+          onLoadComplete={(numberOfPages) => {
+            setTotalPages(numberOfPages);
+            const rtlTargetPage = numberOfPages - targetPage + 1;
+            setTimeout(() => {
+              pdfRef.current?.setPage(rtlTargetPage);
+            }, 0);
+          }}
+          style={styles.pdfCanvasElement}
         />
-
-        {/* Elegant Bottom Action Bar */}
-        <View style={styles.bottomActionsBar}>
-          <TouchableOpacity
-            style={styles.primaryActionBtn}
-            onPress={() => {
-              setTargetPage(1);
-              setShowPdf(true);
-            }}
-            activeOpacity={0.9}
-          >
-            <Text style={styles.primaryActionText}>ابتدائی صفحہ سے پڑھیں</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
 
+  // VIEW 2: Clean, Selective Sub-Index Screen
+  if (selectedLetter) {
+    return (
+      <View style={styles.indexScreen}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>{selectedLetter.title}</Text>
+          <Text style={styles.subtitle}>ذیلی فہرِست</Text>
+          <View style={styles.decoratorLine} />
+        </View>
+
+        <FlatList
+          key="sub-rows"
+          data={selectedLetter.subLetters} // Loops only through existing combinations
+          keyExtractor={(item) => item.letter}
+          numColumns={1} 
+          contentContainerStyle={styles.subListContainer}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => {
+            const combinationTitle = `${selectedLetter.letterKey}-${item.letter}`;
+            return (
+              <TouchableOpacity
+                style={styles.subIndexRow}
+                onPress={() => handleSubItemPress(item.page)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.subIndexTitle}>{combinationTitle}</Text>
+                <View style={styles.subPageContainer}>
+                  <Text style={styles.subPageLabel}>صفحہ</Text>
+                  <Text style={styles.subPageNumber}>{toUrduNumber(item.page)}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    );
+  }
+
+  // VIEW 1: Main Alphabet Grid Menu
   return (
-    <View style={styles.container}>
-      <Pdf
-        ref={pdfRef}
-        source={{ uri: localPdfUri, cache: true }}
-        horizontal={true}
-        enablePaging={true}
-        enableRTL={true}
-        onLoadComplete={(numberOfPages) => {
-          setTotalPages(numberOfPages);
-          const rtlTargetPage = numberOfPages - targetPage + 1;
-          setTimeout(() => {
-            pdfRef.current?.setPage(rtlTargetPage);
-          }, 0);
-        }}
-        style={styles.pdfCanvasElement}
+    <View style={styles.indexScreen}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>صَحِیح لُغَاتُ القُرْآن</Text>
+        <Text style={styles.subtitle}>فہرِستِ الفاظ</Text>
+        <View style={styles.decoratorLine} />
+      </View>
+
+      <FlatList
+        key="main-grid"
+        data={PDF_INDEX}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.gridRow}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => handleMainItemPress(item)}
+            activeOpacity={0.8}
+          >
+            <View style={styles.letterBadge}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+            </View>
+            <View style={styles.pageContainer}>
+              <Text style={styles.pageLabel}>صفحہ</Text>
+              <Text style={styles.cardPage}>{toUrduNumber(item.page)}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
       />
 
-      {/* Floating Action-Driven Back Button */}
-      <TouchableOpacity
-        style={styles.floatingBackBtn}
-        onPress={() => setShowPdf(false)}
-        activeOpacity={0.9}
-      >
-        <Text style={styles.backText}>واپس فہرست</Text>
-      </TouchableOpacity>
+      <View style={styles.bottomActionsBar}>
+        <TouchableOpacity
+          style={styles.primaryActionBtn}
+          onPress={() => {
+            setTargetPage(1);
+            setShowPdf(true);
+          }}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.primaryActionText}>ابتدائی صفحہ سے پڑھیں</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -354,6 +562,61 @@ const styles = StyleSheet.create({
     backgroundColor: "#0F4C43",
     paddingVertical: 12,
     paddingHorizontal: 28,
-    borderRadius: 25, alignItems: "center", justifyContent: "center", elevation: 8, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 5, borderWidth: 1, borderColor: "#D4AF37",
-  }, backText: { color: "#FFFFFF", fontSize: 18, fontFamily: "MehrNastaleeq", },
-});
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    borderWidth: 1,
+    borderColor: "#D4AF37",
+  },
+  backText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontFamily: "MehrNastaleeq",
+  },
+  subListContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingBottom: 40,
+  },
+  subIndexRow: {
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    marginVertical: 6,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-between",
+    elevation: 2,
+  },
+  subIndexTitle: {
+    fontSize: 22,
+    fontFamily: "Amiri-Regular",
+    // Changed to Amiri-Regular for clean execution of dashes/coupletscolor: "#0F4C43",},
+    
+  },
+  subPageContainer: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+  },
+  subPageLabel: {
+    fontSize: 13,
+    fontFamily: "Amiri-Regular",
+    color: "#757575",
+    marginLeft: 6,
+  },
+  subPageNumber: {
+    fontSize: 16,
+    fontFamily: "Amiri-Regular",
+    color: "#0F4C43",
+    fontWeight: "bold",
+  },});
+
