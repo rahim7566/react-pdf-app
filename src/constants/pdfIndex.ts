@@ -1,6 +1,7 @@
 export interface SubLetterItem {
     letter: string;
     page: number;
+    targetPage?: number;
 }
 
 export interface IndexItem {
@@ -20,22 +21,22 @@ export const PDF_INDEX: IndexItem[] = [
         page: 3,
         targetPage: 4,
         subLetters: [
-            { letter: "ب", page: 4 },
-            { letter: "ت", page: 5 },
-            { letter: "ث", page: 5 },
-            { letter: "خ", page: 12 },
-            { letter: "د", page: 5 },
-            { letter: "ذ", page: 5 },
-            { letter: "ز", page: 5 },
-            { letter: "س", page: 5 },
-            { letter: "ص", page: 5 },
-            { letter: "ف", page: 5 },
-            { letter: "ک", page: 5 },
-            { letter: "ل", page: 5 },
-            { letter: "م", page: 5 },
-            { letter: "ن", page: 5 },
-            { letter: "و", page: 5 },
-            { letter: "ی", page: 91 },
+            { letter: "ب", page: 3, targetPage: 4 },
+            { letter: "ت", page: 3, targetPage: 4 },
+            { letter: "ث", page: 3, targetPage: 4 },
+            { letter: "خ", page: 4, targetPage: 5 },
+            { letter: "د", page: 4, targetPage: 5 },
+            { letter: "ذ", page: 4, targetPage: 5 },
+            { letter: "ز", page: 4, targetPage: 5 },
+            { letter: "س", page: 4, targetPage: 5 },
+            { letter: "ص", page: 4, targetPage: 5 },
+            { letter: "ف", page: 4, targetPage: 5 },
+            { letter: "ک", page: 5, targetPage: 6 },
+            { letter: "ل", page: 5, targetPage: 6 },
+            { letter: "م", page: 5, targetPage: 6 },
+            { letter: "ن", page: 5, targetPage: 6 },
+            { letter: "و", page: 5, targetPage: 6 },
+            { letter: "ی", page: 6, targetPage: 7 },
         ]
     },
     {

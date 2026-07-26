@@ -4,11 +4,13 @@ import { useFonts } from "expo-font";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   BackHandler,
   Dimensions,
   FlatList,
   I18nManager,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
@@ -18,6 +20,15 @@ import { styles } from "../styles/appStyles";
 
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
+
+const convertUrduToEnglishNumbers = (input: string): string => {
+  const urduNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+  let output = input;
+  for (let i = 0; i < 10; i++) {
+    output = output.replace(urduNumbers[i], i.toString());
+  }
+  return output;
+};
 
 const toUrduNumber = (num: number | string): string => {
   const urduDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -34,6 +45,7 @@ export default function Index() {
   const [selectedLetter, setSelectedLetter] = useState<IndexItem | null>(null);
   const [targetPage, setTargetPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchPageText, setSearchPageText] = useState("");
 
   const [fontsLoaded] = useFonts({
     "MehrNastaleeq": require("../../assets/fonts/MehrNastaleeq.ttf"),
@@ -92,9 +104,37 @@ export default function Index() {
     }
   };
 
-  const handleSubItemPress = (pageNumber: number) => {
-    setTargetPage(pageNumber); // Open the exact custom page for that combination
+  const handleSubItemPress = (subItem: any) => {
+    const destination = subItem.targetPage ?? subItem.page;
+    setTargetPage(destination);
     setShowPdf(true);
+  };
+
+  // Safe validation search router handling layout updates cleanly
+  const handlePageSearchSubmit = () => {
+    if (!searchPageText.trim()) return;
+
+    const standardDigits = convertUrduToEnglishNumbers(searchPageText);
+    const parsedPage = parseInt(standardDigits, 10);
+
+    if (isNaN(parsedPage) || parsedPage <= 0) {
+      Alert.alert("غلط نمبر", "برائے مہربانی درست صفحہ نمبر درج کریں۔");
+      setSearchPageText("");
+      return;
+    }
+
+    if (totalPages > 0 && parsedPage > totalPages) {
+      Alert.alert("صفحہ دستیاب نہیں", `اس کتاب میں کل ${toUrduNumber(totalPages)} صفحات ہیں۔`);
+      setSearchPageText("");
+      return;
+    }
+    if (parsedPage > 469) {
+      setTargetPage(parsedPage);
+    } else {
+      setTargetPage(parsedPage + 1);
+    }
+    setShowPdf(true);
+    setSearchPageText("");
   };
 
   if (!fontsLoaded || isLoading || !localPdfUri) {
@@ -141,8 +181,8 @@ export default function Index() {
 
         <FlatList
           key="sub-rows"
-          data={selectedLetter.subLetters} // Loops only through existing combinations
-          keyExtractor={(item) => item.letter}
+          data={selectedLetter.subLetters}
+          keyExtractor={(item, index) => `${item.letter}-${index}`}
           numColumns={1}
           contentContainerStyle={styles.subListContainer}
           showsVerticalScrollIndicator={false}
@@ -151,13 +191,14 @@ export default function Index() {
             return (
               <TouchableOpacity
                 style={styles.subIndexRow}
-                onPress={() => handleSubItemPress(item.page)}
+                onPress={() => handleSubItemPress(item)}
                 activeOpacity={0.7}
               >
                 <Text style={styles.subIndexTitle}>{combinationTitle}</Text>
                 <View style={styles.subPageContainer}>
+                  <Text style={styles.subPageLabel}>صفحہ</Text>
+                  {/* Displays the exact unique page number for this specific row */}
                   <Text style={styles.subPageNumber}>{toUrduNumber(item.page)}</Text>
-                  <Text style={styles.subPageLabel}>صفحہ </Text>
                 </View>
               </TouchableOpacity>
             );
@@ -201,17 +242,19 @@ export default function Index() {
         )}
       />
 
+      {/* Bottom Action Area housing Search Input */}
       <View style={styles.bottomActionsBar}>
-        <TouchableOpacity
-          style={styles.primaryActionBtn}
-          onPress={() => {
-            setTargetPage(1);
-            setShowPdf(true);
-          }}
-          activeOpacity={0.9}
-        >
-          <Text style={styles.primaryActionText}>ابتدائی صفحہ سے پڑھیں</Text>
-        </TouchableOpacity>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="صفحہ تلاش کریں..."
+          placeholderTextColor="#9EA7A6"
+          keyboardType="numeric"
+          returnKeyType="search"
+          value={searchPageText}
+          onChangeText={setSearchPageText}
+          onSubmitEditing={handlePageSearchSubmit}
+          blurOnSubmit={true}
+        />
       </View>
     </View>
   );

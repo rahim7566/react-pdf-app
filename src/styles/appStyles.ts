@@ -127,6 +127,8 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
+        justifyContent: "center",
+        alignItems: "center",
     },
     primaryActionBtn: {
         backgroundColor: "#0F4C43",
@@ -202,5 +204,19 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: "MehrNastaleeq",
         color: "#0F4C43",
+    },
+    searchInput: {
+        backgroundColor: "#FFFFFF",
+        width: "90%",
+        height: 50,
+        borderRadius: 25,
+        paddingHorizontal: 25,
+        fontSize: 16,
+        fontFamily: "MehrNastaleeq",
+        color: "#0F4C43",
+        textAlign: "right",
+        borderWidth: 1,
+        borderColor: "#E0F2F1",
+        elevation: 3,
     },
 });
