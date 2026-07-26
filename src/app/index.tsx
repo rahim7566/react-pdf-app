@@ -27,7 +27,7 @@ interface SubLetterItem {
 interface IndexItem {
   id: number;
   title: string;
-  letterKey: string; 
+  letterKey: string;
   page: number;
   targetPage?: number;
   subLetters?: SubLetterItem[]; // OPTIONAL: Only add this if the letter has specific sub-chapters
@@ -35,16 +35,16 @@ interface IndexItem {
 
 // 2. Map only the existing combinations found in your book
 const PDF_INDEX: IndexItem[] = [
-  { 
-    id: 1, 
-    title: "اٰ", 
-    letterKey: "اٰ", 
-    page: 3, 
+  {
+    id: 1,
+    title: "اٰ",
+    letterKey: "اٰ",
+    page: 3,
     targetPage: 4,
     subLetters: [
       { letter: "ب", page: 4 },
       { letter: "ت", page: 5 },
-      { letter: "ث", page: 5 }, 
+      { letter: "ث", page: 5 },
       { letter: "خ", page: 12 },
       { letter: "د", page: 5 },
       { letter: "ذ", page: 5 },
@@ -59,20 +59,20 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ن", page: 5 },
       { letter: "و", page: 5 },
       { letter: "ی", page: 91 },
-      
+
     ]
   },
-  { 
-    id: 2, 
-    title: "ا (الف)", 
-    letterKey: "ا", 
-    page: 3, 
+  {
+    id: 2,
+    title: "ا (الف)",
+    letterKey: "ا",
+    page: 3,
     targetPage: 4,
     subLetters: [
       { letter: "ء", page: 5 },
       { letter: "ب", page: 4 },
       { letter: "ت", page: 5 },
-      { letter: "ث", page: 5 }, 
+      { letter: "ث", page: 5 },
       { letter: "ج", page: 5 },
       { letter: "ح", page: 5 },
       { letter: "خ", page: 12 },
@@ -100,16 +100,16 @@ const PDF_INDEX: IndexItem[] = [
 
     ]
   },
-  { 
-    id: 3, 
-    title: "ب", 
-    letterKey: "ب", 
-    page: 61, 
+  {
+    id: 3,
+    title: "ب",
+    letterKey: "ب",
+    page: 61,
     targetPage: 62,
     subLetters: [
       { letter: "ء", page: 5 },
       { letter: "ا", page: 5 },
-      { letter: "ث", page: 5 }, 
+      { letter: "ث", page: 5 },
       { letter: "ح", page: 5 },
       { letter: "خ", page: 12 },
       { letter: "د", page: 5 },
@@ -131,17 +131,17 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ی", page: 5 },
     ]
   },
-  { 
-    id: 4, 
-    title: "ت", 
-    letterKey: "ت", 
-    page: 61, 
+  {
+    id: 4,
+    title: "ت",
+    letterKey: "ت",
+    page: 61,
     targetPage: 62,
     subLetters: [
       { letter: "ا", page: 5 },
       { letter: "ب", page: 4 },
       { letter: "ت", page: 5 },
-      { letter: "ث", page: 5 }, 
+      { letter: "ث", page: 5 },
       { letter: "ج", page: 5 },
       { letter: "ح", page: 5 },
       { letter: "خ", page: 12 },
@@ -168,11 +168,11 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ی", page: 5 },
     ]
   },
-    { 
-    id: 5, 
-    title: "ث", 
-    letterKey: "ث", 
-    page: 61, 
+  {
+    id: 5,
+    title: "ث",
+    letterKey: "ث",
+    page: 61,
     targetPage: 62,
     subLetters: [
       { letter: "ا", page: 5 },
@@ -180,7 +180,7 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ج", page: 5 },
       { letter: "ر", page: 5 },
       { letter: "ع", page: 5 },
-      { letter: "غ", page: 5 }, 
+      { letter: "غ", page: 5 },
       { letter: "ق", page: 5 },
       { letter: "ل", page: 5 },
       { letter: "م", page: 5 },
@@ -188,18 +188,18 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ی", page: 5 },
     ]
   },
-  { 
-    id: 6, 
-    title: "ج", 
-    letterKey: "ج", 
-    page: 61, 
+  {
+    id: 6,
+    title: "ج",
+    letterKey: "ج",
+    page: 61,
     targetPage: 62,
     subLetters: [
       { letter: "آ", page: 5 },
       { letter: "ء", page: 5 },
       { letter: "ا", page: 5 },
       { letter: "ب", page: 4 },
-      { letter: "ث", page: 5 }, 
+      { letter: "ث", page: 5 },
       { letter: "ح", page: 5 },
       { letter: "د", page: 5 },
       { letter: "ذ", page: 5 },
@@ -213,6 +213,375 @@ const PDF_INDEX: IndexItem[] = [
       { letter: "ن", page: 5 },
       { letter: "و", page: 5 },
       { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 7,
+    title: "ح",
+    letterKey: "ح",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ث", page: 5 },
+      { letter: "ج", page: 5 },
+      { letter: "ح", page: 5 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ض", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ظ", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ق", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 8,
+    title: "خ",
+    letterKey: "خ",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 5 },
+      { letter: "ص", page: 5 },
+      { letter: "ض", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 9,
+    title: "د",
+    letterKey: "د",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 12 },
+      { letter: "ر", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "ف", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 10,
+    title: "ذ",
+    letterKey: "ذ",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ق", page: 5 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 11,
+    title: "ر",
+    letterKey: "ر",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "ء", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 4 },
+      { letter: "ج", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 4 },
+      { letter: "د", page: 4 },
+      { letter: "ز", page: 5 },
+      { letter: "س", page: 4 },
+      { letter: "ش", page: 4 },
+      { letter: "ص", page: 4 },
+      { letter: "ض", page: 4 },
+      { letter: "ط", page: 4 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 4 },
+      { letter: "ف", page: 4 },
+      { letter: "ق", page: 4 },
+      { letter: "ک", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 12,
+    title: "ز",
+    letterKey: "ز",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ج", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 4 },
+      { letter: "د", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ق", page: 4 },
+      { letter: "ک", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 13,
+    title: "س",
+    letterKey: "س",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ج", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 4 },
+      { letter: "د", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ق", page: 4 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 14,
+    title: "ش",
+    letterKey: "ش",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ء", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 5 },
+      { letter: "ج", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "د", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ط", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ق", page: 4 },
+      { letter: "ک", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 15,
+    title: "ص",
+    letterKey: "ص",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "خ", page: 5 },
+      { letter: "د", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ک", page: 5 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 91 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 16,
+    title: "ض",
+    letterKey: "ض",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "د", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ل", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 17,
+    title: "ط",
+    letterKey: "ط",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ح", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "س", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "غ", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+  {
+    id: 18,
+    title: "ظ",
+    letterKey: "ظ",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "ا", page: 5 },
+      { letter: "ع", page: 5 },
+      { letter: "ف", page: 4 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 5 },
+      { letter: "ھ", page: 5 },
+    ]
+  },
+    {
+    id: 19,
+    title: "ع",
+    letterKey: "ع",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ت", page: 4 },
+      { letter: "ث", page: 4 },
+      { letter: "ج", page: 4 },
+      { letter: "د", page: 5 },
+      { letter: "ذ", page: 4 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 4 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 4 },
+      { letter: "ص", page: 4 },
+      { letter: "ض", page: 4 },
+      { letter: "ط", page: 4 },
+      { letter: "ظ", page: 4 },
+      { letter: "ف", page: 4 },
+      { letter: "ق", page: 4 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 4 },
+      { letter: "و", page: 5 },
+      { letter: "ھ", page: 5 },
+      { letter: "ی", page: 5 },
+    ]
+  },
+      {
+    id: 20,
+    title: "غ",
+    letterKey: "غ",
+    page: 61,
+    targetPage: 62,
+    subLetters: [
+      { letter: "آ", page: 5 },
+      { letter: "ا", page: 5 },
+      { letter: "ب", page: 4 },
+      { letter: "ث", page: 4 },
+      { letter: "د", page: 5 },
+      { letter: "ر", page: 5 },
+      { letter: "ز", page: 4 },
+      { letter: "س", page: 5 },
+      { letter: "ش", page: 4 },
+      { letter: "ص", page: 4 },
+      { letter: "ض", page: 4 },
+      { letter: "ط", page: 4 },
+      { letter: "ف", page: 4 },
+      { letter: "ل", page: 5 },
+      { letter: "م", page: 5 },
+      { letter: "ن", page: 4 },
+      { letter: "و", page: 5 },
       { letter: "ی", page: 5 },
     ]
   },
@@ -268,13 +637,13 @@ export default function Index() {
     const backAction = () => {
       if (showPdf) {
         setShowPdf(false);
-        return true; 
-      }
-      if (selectedLetter) {
-        setSelectedLetter(null); 
         return true;
       }
-      return false; 
+      if (selectedLetter) {
+        setSelectedLetter(null);
+        return true;
+      }
+      return false;
     };
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => backHandler.remove();
@@ -342,7 +711,7 @@ export default function Index() {
           key="sub-rows"
           data={selectedLetter.subLetters} // Loops only through existing combinations
           keyExtractor={(item) => item.letter}
-          numColumns={1} 
+          numColumns={1}
           contentContainerStyle={styles.subListContainer}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
@@ -601,7 +970,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: "Amiri-Regular",
     // Changed to Amiri-Regular for clean execution of dashes/coupletscolor: "#0F4C43",},
-    
+
   },
   subPageContainer: {
     flexDirection: "row-reverse",
@@ -618,5 +987,6 @@ const styles = StyleSheet.create({
     fontFamily: "Amiri-Regular",
     color: "#0F4C43",
     fontWeight: "bold",
-  },});
+  },
+});
 
