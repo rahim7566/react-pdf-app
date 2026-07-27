@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     // Home Screen Layout
     indexScreen: { flex: 1, backgroundColor: "#F7FAF9" },
     headerContainer: {
-        paddingTop: 30,
-        paddingBottom: 12,
+        paddingTop: 35,
+        paddingBottom: 10,
         backgroundColor: "#0F4C43",
         borderBottomLeftRadius: 24,
         borderBottomRightRadius: 24,
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     listContainer: {
         paddingHorizontal: 16,
         paddingTop: 10,
-        paddingBottom: 120, // Prevents elements from hiding behind the bottom button bar
+        paddingBottom: 30, // Prevents elements from hiding behind the bottom button bar
     },
     gridRow: {
         flexDirection: I18nManager.isRTL ? "row" : "row-reverse",
@@ -109,26 +109,14 @@ export const styles = StyleSheet.create({
         height,
         backgroundColor: "#1A1A1A",
     },
-
-    // Bottom Fixed Structural Elements
-    bottomActionsBar: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: "#FFFFFF",
-        paddingTop: 16,
-        paddingBottom: 30,
-        paddingHorizontal: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        elevation: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        justifyContent: "center",
+    topSearchContainer: {
+        width: "115%",
+        paddingHorizontal: 15,
+        marginVertical: 0,
+        paddingTop: 2,
+        paddingBottom: 5,
         alignItems: "center",
+        justifyContent: "center",
     },
     primaryActionBtn: {
         backgroundColor: "#0F4C43",
@@ -206,17 +194,68 @@ export const styles = StyleSheet.create({
         color: "#0F4C43",
     },
     searchInput: {
-        backgroundColor: "#FFFFFF",
-        width: "90%",
-        height: 50,
-        borderRadius: 25,
+        backgroundColor: "rgba(255, 255, 255, 0.15)",
+        width: "100%",
+        height: 46,
+        borderRadius: 23,
         paddingHorizontal: 25,
-        fontSize: 16,
+        paddingTop: 6,
+        paddingBottom: 4,
+        fontSize: 18,
+        fontFamily: "MehrNastaleeq",
+        color: "#FFFFFF",
+        textAlign: "center",
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.3)",
+        marginTop: 2,
+        marginBottom: 0,
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // Darkens the background behind the alert
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalContainer: {
+        backgroundColor: "#FFFFFF",
+        width: "80%",
+        borderRadius: 20,
+        padding: 24,
+        alignItems: "center",
+        elevation: 10, // Drop shadow for Android
+        shadowColor: "#000", // Drop shadow for iOS
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+    },
+    modalTitle: {
+        fontSize: 22,
         fontFamily: "MehrNastaleeq",
         color: "#0F4C43",
-        textAlign: "right",
+        textAlign: "center",
+        marginBottom: 10,
+    },
+    modalMessage: {
+        fontSize: 16,
+        fontFamily: "MehrNastaleeq",
+        color: "#555555",
+        textAlign: "center",
+        marginBottom: 20,
+        lineHeight: 24,
+    },
+    modalButton: {
+        backgroundColor: "#0F4C43",
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        minWidth: 100,
+        alignItems: "center",
         borderWidth: 1,
-        borderColor: "#E0F2F1",
-        elevation: 3,
+        borderColor: "#FFD700", // Elegant gold border touch
+    },
+    modalButtonText: {
+        color: "#FFFFFF",
+        fontSize: 15,
+        fontFamily: "MehrNastaleeq",
     },
 });

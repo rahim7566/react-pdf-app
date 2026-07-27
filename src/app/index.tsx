@@ -4,11 +4,11 @@ import { useFonts } from "expo-font";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   BackHandler,
   Dimensions,
   FlatList,
   I18nManager,
+  Modal,
   Text,
   TextInput,
   TouchableOpacity,
@@ -46,6 +46,9 @@ export default function Index() {
   const [targetPage, setTargetPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchPageText, setSearchPageText] = useState("");
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [fontsLoaded] = useFonts({
     "MehrNastaleeq": require("../../assets/fonts/MehrNastaleeq.ttf"),
@@ -79,6 +82,10 @@ export default function Index() {
 
   useEffect(() => {
     const backAction = () => {
+      if (alertVisible) {
+        setAlertVisible(false);
+        return true;
+      }
       if (showPdf) {
         setShowPdf(false);
         return true;
@@ -110,7 +117,12 @@ export default function Index() {
     setShowPdf(true);
   };
 
-  // Safe validation search router handling layout updates cleanly
+  const showAlert = (title: string, message: string) => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
+
   const handlePageSearchSubmit = () => {
     if (!searchPageText.trim()) return;
 
@@ -118,13 +130,16 @@ export default function Index() {
     const parsedPage = parseInt(standardDigits, 10);
 
     if (isNaN(parsedPage) || parsedPage <= 0) {
-      Alert.alert("غلط نمبر", "برائے مہربانی درست صفحہ نمبر درج کریں۔");
+      showAlert("غلط نمبر", "برائے مہربانی درست صفحہ نمبر درج کریں۔");
       setSearchPageText("");
       return;
     }
 
     if (totalPages > 0 && parsedPage > totalPages) {
-      Alert.alert("صفحہ دستیاب نہیں", `اس کتاب میں کل ${toUrduNumber(totalPages)} صفحات ہیں۔`);
+      showAlert(
+        "صفحہ دستیاب نہیں",
+        `اس کتاب میں کل ${toUrduNumber(totalPages)} صفحات ہیں۔`
+      );
       setSearchPageText("");
       return;
     }
@@ -197,7 +212,6 @@ export default function Index() {
                 <Text style={styles.subIndexTitle}>{combinationTitle}</Text>
                 <View style={styles.subPageContainer}>
                   <Text style={styles.subPageLabel}>صفحہ</Text>
-                  {/* Displays the exact unique page number for this specific row */}
                   <Text style={styles.subPageNumber}>{toUrduNumber(item.page)}</Text>
                 </View>
               </TouchableOpacity>
@@ -211,12 +225,46 @@ export default function Index() {
   // VIEW 1: Main Alphabet Grid Menu
   return (
     <View style={styles.indexScreen}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={alertVisible}
+        onRequestClose={() => setAlertVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>{alertTitle}</Text>
+            <Text style={styles.modalMessage}>{alertMessage}</Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setAlertVisible(false)}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.modalButtonText}>ٹھیک ہے</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.headerContainer}>
         <Text style={styles.header}>صَحِیح لُغَاتُ القُرْآن</Text>
+        <View style={styles.topSearchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="صفحہ تلاش کریں..."
+            placeholderTextColor="#9EA7A6"
+            keyboardType="numeric"
+            returnKeyType="search"
+            value={searchPageText}
+            onChangeText={setSearchPageText}
+            onSubmitEditing={handlePageSearchSubmit}
+            blurOnSubmit={true}
+          />
+        </View>
         <Text style={styles.subtitle}>فہرِستِ الفاظ</Text>
         <View style={styles.decoratorLine} />
       </View>
-
       <FlatList
         key="main-grid"
         data={PDF_INDEX}
@@ -241,21 +289,6 @@ export default function Index() {
           </TouchableOpacity>
         )}
       />
-
-      {/* Bottom Action Area housing Search Input */}
-      <View style={styles.bottomActionsBar}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="صفحہ تلاش کریں..."
-          placeholderTextColor="#9EA7A6"
-          keyboardType="numeric"
-          returnKeyType="search"
-          value={searchPageText}
-          onChangeText={setSearchPageText}
-          onSubmitEditing={handlePageSearchSubmit}
-          blurOnSubmit={true}
-        />
-      </View>
     </View>
   );
 }
