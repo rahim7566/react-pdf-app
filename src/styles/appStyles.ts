@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     listContainer: {
         paddingHorizontal: 16,
         paddingTop: 10,
-        paddingBottom: 30, // Prevents elements from hiding behind the bottom button bar
+        paddingBottom: 37, // Prevents elements from hiding behind the bottom button bar
     },
     gridRow: {
         flexDirection: I18nManager.isRTL ? "row" : "row-reverse",
@@ -58,10 +58,10 @@ export const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: "#FFFFFF",
-        width: (width - 46) / 2, // Perfect calculation for symmetry with standard dynamic spacing
+        width: (width - 46) / 2,
         borderRadius: 16,
         padding: 6,
-        flexDirection: "row", // Preserves intuitive right-to-left optical balancing
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         borderWidth: 1,
@@ -257,5 +257,265 @@ export const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 15,
         fontFamily: "MehrNastaleeq",
+    },
+    bottomNavBar: {
+        backgroundColor: "#0F4C43", // Matching dark green theme
+        flexDirection: "row-reverse", // Right-to-Left alignment for Urdu interface context
+        height: 60,
+        width: "100%",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderTopWidth: 1,
+        borderColor: "#FFD700", // Elegant thin gold divider border line
+        paddingBottom: 5, // Provides spacing from the phone's native bottom gesture bar
+    },
+    bottomNavTab: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+    },
+    bottomNavText: {
+        color: "#FFFFFF",
+        fontSize: 14,
+        fontFamily: "Amiri-Regular",
+        textAlign: "center",
+    },
+
+    aboutContentCard: {
+        backgroundColor: "#FFFFFF",
+        margin: 20,
+        padding: 25,
+        borderRadius: 15,
+        elevation: 4,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        alignItems: "center",
+    },
+    aboutHeadingText: {
+        fontSize: 24,
+        fontFamily: "Amiri-Regular",
+        color: "#0F4C43",
+        marginBottom: 15,
+        textAlign: "center",
+    },
+    aboutBodyText: {
+        fontSize: 16,
+        fontFamily: "MehrNastaleeq",
+        color: "#444444",
+        textAlign: "justify", // Aligns block text cleanly along both margins
+        lineHeight: 28,
+        marginBottom: 15,
+    },
+    aboutFooterVersion: {
+        fontSize: 12,
+        fontFamily: "Amiri-Regular",
+        color: "#9EA7A6",
+        marginTop: 25,
+        textAlign: "right", // 👈 CHANGED: Keeps the version token clean and tucked safely into the corner column
+        width: "100%",
+    },
+    aboutDivider: {
+        width: "80%",
+        height: 1,
+        backgroundColor: "#E0F2F1",
+        marginVertical: 15,
+    },
+    developerHeadingText: {
+        fontSize: 20,
+        fontFamily: "MehrNastaleeq",
+        color: "#0F4C43",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    prayerRequestText: {
+        fontSize: 16,
+        fontFamily: "Amiri-Regular",
+        color: "#0F4C43", // Using the theme green color to make the prayer request stand out
+        textAlign: "center",
+        lineHeight: 26,
+        fontWeight: "bold",
+        backgroundColor: "#E0F2F1", // Light tint background bubble to highlight the request
+        padding: 12,
+        borderRadius: 10,
+        marginTop: 5,
+        marginBottom: 15,
+    },
+
+
+
+    // ==========================================
+    // DARK MODE STYLES EXTENSIONS
+    // ==========================================
+    indexScreenDark: {
+        flex: 1,
+        backgroundColor: "#121212", // Clean Material dark theme background
+    },
+    cardDark: {
+        backgroundColor: "#1E1E1E", // Darker card background surface
+        width: width * 0.44,
+        height: 90,
+        borderRadius: 15,
+        marginVertical: 8,
+        padding: 12,
+        flexDirection: "row-reverse",
+        alignItems: "center",
+        justifyContent: "space-between",
+        elevation: 3,
+    },
+    letterBadgeDark: {
+        backgroundColor: "#2C2C2C",
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    cardTitleDark: {
+        fontSize: 20,
+        fontFamily: "MehrNastaleeq",
+        color: "#FFD700", // Gold looks exceptionally premium on dark grey modes
+        textAlign: "center",
+    },
+    cardPageDark: {
+        fontSize: 16,
+        fontFamily: "Amiri-Regular",
+        color: "#FFFFFF",
+        fontWeight: "bold",
+    },
+    bottomNavBarDark: {
+        backgroundColor: "#1E1E1E", // Dark grey navigation strip footer
+        flexDirection: "row-reverse",
+        height: 60,
+        width: "100%",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderTopWidth: 1,
+        borderColor: "#0F4C43", // Subtle green top frame divider line
+        paddingBottom: 5,
+    },
+    subIndexRowDark: {
+        backgroundColor: "#1E1E1E",
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 12,
+        marginVertical: 6,
+        flexDirection: "row-reverse",
+        alignItems: "center",
+        justifyContent: "space-between",
+        elevation: 2,
+    },
+    subIndexTitleDark: {
+        fontSize: 22,
+        fontFamily: "Amiri-Regular",
+        color: "#FFD700",
+    },
+    subPageNumberDark: {
+        fontSize: 16,
+        fontFamily: "Amiri-Regular",
+        color: "#FFFFFF",
+        fontWeight: "bold",
+    },
+    aboutContentCardDark: {
+        backgroundColor: "#1E1E1E",
+        margin: 20,
+        padding: 25,
+        borderRadius: 15,
+        elevation: 4,
+        alignItems: "center",
+    },
+    aboutHeadingTextDark: {
+        fontSize: 24,
+        fontFamily: "MehrNastaleeq",
+        color: "#FFD700",
+        marginBottom: 15,
+        textAlign: "center",
+    },
+    aboutHeaderButton: {
+        position: "absolute",
+        left: 20, // Positions it on the far left side of the green top banner
+        backgroundColor: "rgba(255, 255, 255, 0.15)", // Translucent white pill accent matching the search bar
+        paddingVertical: 5,
+        paddingHorizontal: 12,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.25)",
+    },
+    aboutHeaderButtonText: {
+        color: "#FFFFFF",
+        fontSize: 12,
+        fontFamily: "Amiri-Regular",
+        fontWeight: "bold",
+    },
+
+    headerTitleRow: {
+        width: "100%",
+        flexDirection: "row-reverse", // Handles Right-to-Left alignment safely for Urdu apps
+        alignItems: "center",
+        justifyContent: "space-between", // Pushes the items to the edges evenly
+        paddingHorizontal: 20,
+        marginBottom: 5,
+    },
+    headerSideSpacer: {
+        width: 36, // Must match the exact width of the aboutHeaderCircle button for pixel-perfect title centering
+    },
+    aboutHeaderCircle: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: "rgba(255, 255, 255, 0.12)", // Premium translucent glassmorphism accent
+        justifyContent: "center",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.2)",
+    },
+    aboutHeaderCircleText: {
+        color: "#FFD700", // Sharp gold color for the info symbol inside the green banner
+        fontSize: 18,
+        fontFamily: "Amiri-Regular",
+        fontWeight: "bold",
+        // Small vertical correction since Amiri text sits a fraction higher natively
+        paddingTop: 2,
+    },
+    developerNameContainer: {
+        width: "100%",
+        alignItems: "flex-start", // Keeps the container box anchored on the screen left layout margin
+        marginTop: 15,
+        paddingHorizontal: 15,
+    },
+    developerLabelText: {
+        alignItems: "flex-start",
+        fontSize: 20,
+        fontFamily: "MehrNastaleeq",
+        color: "#757575",
+        textAlign: "right",
+    },
+    developerNameText: {
+        fontSize: 18,
+        fontFamily: "MehrNastaleeq",
+        color: "#0F4C43",
+        marginTop: 2,
+        textAlign: "right",
+    },
+    aboutScrollContainer: {
+        paddingBottom: 30,
+    },
+    developerSubText: {
+        fontSize: 14,
+        fontFamily: "Amiri-Regular",
+        color: "#555555",
+        marginTop: 2,
+        textAlign: "right",
+    },
+    developerEmailText: {
+        fontSize: 14,
+        fontFamily: "Amiri-Regular",
+        color: "#0F4C43",
+        marginTop: 4,
+        textAlign: "right",
+        writingDirection: "ltr",
+        textDecorationLine: "underline",
     },
 });

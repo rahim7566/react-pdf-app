@@ -9,6 +9,7 @@ import {
   FlatList,
   I18nManager,
   Modal,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -49,6 +50,7 @@ export default function Index() {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [showAboutUs, setShowAboutUs] = useState(false);
 
   const [fontsLoaded] = useFonts({
     "MehrNastaleeq": require("../../assets/fonts/MehrNastaleeq.ttf"),
@@ -90,6 +92,10 @@ export default function Index() {
         setShowPdf(false);
         return true;
       }
+      if (showAboutUs) {
+        setShowAboutUs(false);
+        return true;
+      }
       if (selectedLetter) {
         setSelectedLetter(null);
         return true;
@@ -98,7 +104,7 @@ export default function Index() {
     };
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => backHandler.remove();
-  }, [showPdf, selectedLetter]);
+  }, [showPdf, selectedLetter, alertVisible, showAboutUs]);
 
   // Handle Main Item click intelligently
   const handleMainItemPress = (item: IndexItem) => {
@@ -157,6 +163,51 @@ export default function Index() {
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#0F4C43" />
         <Text style={styles.loadingText}>لوڈ ہو رہا ہے...</Text>
+      </View>
+    );
+  }
+
+  // VIEW 4: About Us (ہمارے بارے میں) Full Screen View
+  if (showAboutUs) {
+    return (
+      <View style={styles.indexScreen}>
+        {/* Header Block */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>ہمارے بارے میں</Text>
+          <Text style={styles.subtitle}>ایپلی کیشن کی تفصیلات</Text>
+          <View style={styles.decoratorLine} />
+        </View>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.aboutScrollContainer}
+        >
+          <View style={styles.aboutContentCard}>
+            <Text style={styles.aboutHeadingText}>صَحیح لُغاتُ القُرْآن</Text>
+
+            <Text style={styles.aboutBodyText}>
+              یہ صَحیح لُغاتُ القُرْآن کی آفیشل اینڈرائیڈ ایپلی کیشن ہے، جس کا مقصد قرآنی الفاظ کے درست مفاہیم اور لغات تک آسان رسائی فراہم کرنا ہے۔
+              قرآن مجید میں جتنے بھی الفاظ ہیں وہ تقریباً سبھی اس لغت میں موجود ہیں جو کہ باآسانی معنی کو ڈھونڈنے اور سمجھنے میں مدد فراہم کرتے ہیں۔
+            </Text>
+
+            <Text style={styles.aboutBodyText}>
+              اس ایپ کی مدد سے آپ حروفِ تہجی اور ان کے ذیلی حروف کے ذریعے سیکنڈوں میں مطلوبہ صفحات تک پہنچ سکتے ہیں۔ اور براہِ راست صفحہ نمبر تلاش کرنے کی سہولت بھی موجود ہے۔
+            </Text>
+
+            <Text style={styles.aboutBodyText}>
+              اس کے علاوہ صفحہ نمبر ۴۷۱ پر ”قرآن مجید میں وجوہ اور نظائر کا بیان“ اور صفحہ نمبر ۴۷۹ پر ”فصل“ (یعنی اہم الفاظ کی منطق) کا مطالعہ ہے۔
+            </Text>
+
+            <View style={styles.developerNameContainer}>
+              <Text style={styles.developerLabelText}>بندہ عاجز:</Text>
+              <Text style={styles.developerNameText}>محمد عبد الرحیم</Text>
+              <Text style={styles.developerSubText}>سافٹ ویئر انجینئر </Text>
+              <Text style={styles.developerEmailText}>abdurrahim7566@gmail.com</Text>
+            </View>
+
+            <Text style={styles.aboutFooterVersion}>ورژن: ۱.۰</Text>
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -248,7 +299,27 @@ export default function Index() {
       </Modal>
 
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>صَحِیح لُغَاتُ القُرْآن</Text>
+
+        <View style={styles.headerTitleRow}>
+
+          {/* 1. Right Side Invisible Spacer: Balances out the width calculation */}
+          <View style={styles.headerSideSpacer} />
+
+          {/* 2. Middle Component: Stays completely clean, centered, and untouched */}
+          <Text style={styles.header}>صَحِیح لُغَاتُ القُرْآن</Text>
+
+          {/* 3. Left Side Component: Premium Floating Circular Info Action Icon */}
+          <TouchableOpacity
+            style={styles.aboutHeaderCircle}
+            onPress={() => setShowAboutUs(true)}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.aboutHeaderCircleText}>ⓘ</Text>
+          </TouchableOpacity>
+
+        </View>
+
+        {/* Search Input bar container */}
         <View style={styles.topSearchContainer}>
           <TextInput
             style={styles.searchInput}
@@ -262,9 +333,12 @@ export default function Index() {
             blurOnSubmit={true}
           />
         </View>
+
         <Text style={styles.subtitle}>فہرِستِ الفاظ</Text>
         <View style={styles.decoratorLine} />
       </View>
+
+      {/* Modern 2-Column Grid List */}
       <FlatList
         key="main-grid"
         data={PDF_INDEX}
